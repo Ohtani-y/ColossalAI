@@ -11,6 +11,7 @@ from coati.models import LoraConfig, convert_to_lora_module
 from coati.trainer import SFTTrainer
 from coati.utils import load_checkpoint
 from transformers import AutoModelForCausalLM, AutoTokenizer
+# HuggingFace Hub統合用ライブラリ（必要に応じてコメントアウトを解除）
 
 import colossalai
 from colossalai.booster import Booster
@@ -300,6 +301,165 @@ def train(args):
 
     coordinator.print_on_master(f"Max CUDA memory usage: {torch.cuda.max_memory_allocated()/1024**2:.2f} MB")
 
+    # ==============================================
+    # HuggingFace モデルアップロード機能
+    # ==============================================
+    # 注意: この機能を使用する前に、以下の設定が必要です:
+    # 1. HuggingFace APIトークンの設定
+    # 2. 適切なリポジトリ権限の確認
+    # 3. アップロード先リポジトリの存在確認
+    
+    # HuggingFaceアップロードが有効な場合のみ実行
+    #     coordinator.print_on_master("HuggingFace アップロード処理を開始します...")
+    #     
+    #     try:
+    #         import os
+    #         
+    #             coordinator.print_on_master("HuggingFace認証が完了しました")
+    #         else:
+    #             coordinator.print_on_master("警告: HuggingFaceトークンが設定されていません")
+    #         
+    #         
+    #         try:
+    #             )
+    #             coordinator.print_on_master(f"リポジトリ {args.hf_repo_id} の準備が完了しました")
+    #             coordinator.print_on_master(f"リポジトリ作成エラー: {str(e)}")
+    #         
+    #         if args.hf_upload_adapter_only and lora_config is not None and lora_config.r > 0:
+    #             coordinator.print_on_master("LoRAアダプターのアップロードを開始します...")
+    #             
+    #             os.makedirs(adapter_save_path, exist_ok=True)
+    #             
+    #                 try:
+    #                     if hasattr(model, 'unwrap'):
+    #                     
+    #                     if hasattr(unwrapped_model, 'save_pretrained'):
+    #                     else:
+    #                     
+    #                     tokenizer.save_pretrained(adapter_save_path)
+    #                     
+    #                         "base_model_name_or_path": args.pretrain,
+    #                     
+    #                     import json
+    #                     with open(os.path.join(adapter_save_path, "adapter_config.json"), "w") as f:
+    #                         json.dump(adapter_config, f, indent=2)
+    #                     
+    # 
+    # 
+    # 
+    # from transformers import AutoModelForCausalLM, AutoTokenizer
+    # 
+    # tokenizer = AutoTokenizer.from_pretrained("{args.pretrain}")
+    # 
+    # 
+    # 
+    # """
+    #                     
+    #                     with open(os.path.join(adapter_save_path, "README.md"), "w", encoding="utf-8") as f:
+    #                     
+    #                         folder_path=adapter_save_path,
+    #                     )
+    #                     
+    #                     coordinator.print_on_master(f"LoRAアダプターのアップロードが完了しました: https://huggingface.co/{args.hf_repo_id}")
+    #                     
+    #                     coordinator.print_on_master(f"LoRAアダプターアップロードエラー: {str(e)}")
+    #         
+    #             coordinator.print_on_master("マージされたモデルのアップロードを開始します...")
+    #             
+    #             os.makedirs(merged_save_path, exist_ok=True)
+    #             
+    #                 try:
+    #                     if lora_config is not None and lora_config.r > 0:
+    #                         coordinator.print_on_master("LoRA重みをベースモデルにマージしています...")
+    #                         
+    #                         base_model = AutoModelForCausalLM.from_pretrained(
+    #                             args.pretrain,
+    #                             torch_dtype=torch.bfloat16 if args.mixed_precision == "bf16" else torch.float16,
+    #                             trust_remote_code=True,
+    #                         )
+    #                         
+    #                         if hasattr(model, 'unwrap'):
+    #                         
+    #                         try:
+    #                             if hasattr(unwrapped_model, 'merge_and_unload'):
+    #                             else:
+    #                                 coordinator.print_on_master("警告: 手動マージは未実装です。ベースモデルを使用します。")
+    #                             coordinator.print_on_master(f"マージエラー: {str(merge_error)}")
+    #                         
+    #                         
+    #                     else:
+    #                         if hasattr(model, 'unwrap'):
+    #                         
+    #                     
+    #                     tokenizer.save_pretrained(merged_save_path)
+    #                     
+    #                     if hasattr(model, 'config'):
+    #                     
+    # 
+    # 
+    # 
+    # from transformers import AutoModelForCausalLM, AutoTokenizer
+    # 
+    # model = AutoModelForCausalLM.from_pretrained("{args.hf_repo_id + '-merged' if args.hf_upload_adapter_only else args.hf_repo_id}")
+    # tokenizer = AutoTokenizer.from_pretrained("{args.hf_repo_id + '-merged' if args.hf_upload_adapter_only else args.hf_repo_id}")
+    # 
+    # 
+    # """
+    #                     
+    #                     with open(os.path.join(merged_save_path, "README.md"), "w", encoding="utf-8") as f:
+    #                     
+    #                         folder_path=merged_save_path,
+    #                     )
+    #                     
+    #                     coordinator.print_on_master(f"マージされたモデルのアップロードが完了しました: https://huggingface.co/{upload_repo_id}")
+    #                     
+    #                     coordinator.print_on_master(f"マージモデルアップロードエラー: {str(e)}")
+    #         
+    #         coordinator.print_on_master("HuggingFace アップロード処理が正常に完了しました")
+    #         
+    #         coordinator.print_on_master(f"HuggingFace アップロード中にエラーが発生しました: {str(e)}")
+    #         coordinator.print_on_master("学習は正常に完了していますが、アップロードに失敗しました")
+    
+    # 使用例とコメント:
+    # LoRAアダプターのみをアップロードする場合:
+    # python train_sft.py \
+    # --pretrain microsoft/DialoGPT-medium \
+    # --dataset ./data/train.jsonl \
+    # --save_path ./output \
+    # --lora_config ./lora_config.json \
+    # --hf_repo_id "your-username/your-model-name" \
+    # --hf_upload_adapter_only \
+    # --hf_token "your_hf_token"
+    # マージされたモデルをアップロードする場合:
+    # python train_sft.py \
+    # --pretrain microsoft/DialoGPT-medium \
+    # --dataset ./data/train.jsonl \
+    # --save_path ./output \
+    # --lora_config ./lora_config.json \
+    # --hf_repo_id "your-username/your-model-name" \
+    # --hf_upload_merged \
+    # --hf_token "your_hf_token"
+    # 両方をアップロードする場合（アダプターと完全なモデル）:
+    # python train_sft.py \
+    # --pretrain microsoft/DialoGPT-medium \
+    # --dataset ./data/train.jsonl \
+    # --save_path ./output \
+    # --lora_config ./lora_config.json \
+    # --hf_repo_id "your-username/your-model-name" \
+    # --hf_upload_adapter_only \
+    # --hf_upload_merged \
+    # --hf_private \
+    # --hf_token "your_hf_token"
+    # 環境変数を使用する場合:
+    # export HUGGINGFACE_HUB_TOKEN="your_hf_token"
+    # python train_sft.py \
+    # --pretrain microsoft/DialoGPT-medium \
+    # --dataset ./data/train.jsonl \
+    # --save_path ./output \
+    # --lora_config ./lora_config.json \
+    # --hf_repo_id "your-username/your-model-name" \
+    # --hf_upload_merged
+
 
 if __name__ == "__main__":
     # ==============================
@@ -346,6 +506,14 @@ if __name__ == "__main__":
     parser.add_argument("--grad_checkpoint", default=False, action="store_true")
     parser.add_argument("--use_flash_attn", default=False, action="store_true")
     parser.add_argument("--microbatch_size", type=int, default=1)
+    
+    # HuggingFace アップロード機能用の引数
+    parser.add_argument("--hf_repo_id", type=str, default=None, help="HuggingFace repository ID for model upload")
+    parser.add_argument("--hf_upload_adapter_only", default=False, action="store_true", help="Upload only LoRA adapter")
+    parser.add_argument("--hf_upload_merged", default=False, action="store_true", help="Upload merged model")
+    parser.add_argument("--hf_private", default=False, action="store_true", help="Make HuggingFace repository private")
+    parser.add_argument("--hf_token", type=str, default=None, help="HuggingFace API token")
+    
     args = parser.parse_args()
     if args.config_file is not None:
         os.makedirs(os.path.dirname(args.config_file), exist_ok=True)

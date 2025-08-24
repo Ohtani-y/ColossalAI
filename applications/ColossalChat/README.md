@@ -4,48 +4,48 @@
   <span>ColossalChat</span>
 </h1>
 
-## Table of Contents
+## 目次
 
-- [Table of Contents](#table-of-contents)
-- [What is ColossalChat?](#what-is-colossalchat)
-- [Online demo](#online-demo)
-- [Install](#install)
-  - [Install the environment](#install-the-environment)
-  - [Install the Transformers](#install-the-transformers)
-- [Introduction](#introduction)
-  - [Supervised datasets collection](#step-1-data-collection)
-  - [RLHF Training Stage1 - Supervised instructs tuning](#rlhf-training-stage1---supervised-instructs-tuning)
-  - [RLHF Training Stage2 - Training reward model](#rlhf-training-stage2---training-reward-model)
-  - [RLHF Training Stage3 - Training model with reinforcement learning by human feedback](#rlhf-training-stage3---proximal-policy-optimization)
-  - [Alternative Option for RLHF: GRPO](#alternative-option-for-rlhf-group-relative-policy-optimization-grpo)
-  - [Alternative Option For RLHF: DPO](#alternative-option-for-rlhf-direct-preference-optimization)
-  - [Alternative Option For RLHF: SimPO](#alternative-option-for-rlhf-simple-preference-optimization-simpo)
-  - [Alternative Option For RLHF: ORPO](#alternative-option-for-rlhf-odds-ratio-preference-optimization-orpo)
-  - [Alternative Option For RLHF: KTO](#alternative-option-for-rlhf-kahneman-tversky-optimization-kto)
-  - [SFT for DeepSeek V3/R1](#sft-for-deepseek-v3)
-  - [Inference Quantization and Serving - After Training](#inference-quantization-and-serving---after-training)
-- [Invitation to open-source contribution](#invitation-to-open-source-contribution)
-- [Quick Preview](#quick-preview)
-- [Authors](#authors)
-- [Citations](#citations)
-- [Licenses](#licenses)
+- [目次](#目次)
+- [ColossalChatとは](#colossalchatとは)
+- [オンラインデモ](#オンラインデモ)
+- [インストール](#インストール)
+  - [環境のインストール](#環境のインストール)
+  - [Transformersのインストール](#transformersのインストール)
+- [概要](#概要)
+  - [教師ありデータセット収集](#ステップ1-データ収集)
+  - [RLHF学習ステージ1 - 教師あり指示調整](#rlhf学習ステージ1---教師あり指示調整)
+  - [RLHF学習ステージ2 - 報酬モデル学習](#rlhf学習ステージ2---報酬モデル学習)
+  - [RLHF学習ステージ3 - 人間フィードバックによる強化学習](#rlhf学習ステージ3---近接方策最適化)
+  - [RLHFの代替オプション: GRPO](#rlhfの代替オプション-グループ相対方策最適化-grpo)
+  - [RLHFの代替オプション: DPO](#rlhfの代替オプション-直接選好最適化)
+  - [RLHFの代替オプション: SimPO](#rlhfの代替オプション-単純選好最適化-simpo)
+  - [RLHFの代替オプション: ORPO](#rlhfの代替オプション-オッズ比選好最適化-orpo)
+  - [RLHFの代替オプション: KTO](#rlhfの代替オプション-カーネマン・トベルスキー最適化-kto)
+  - [DeepSeek V3/R1のSFT](#deepseek-v3r1のsft)
+  - [推論量子化とサービング - 学習後](#推論量子化とサービング---学習後)
+- [オープンソース貢献への招待](#オープンソース貢献への招待)
+- [クイックプレビュー](#クイックプレビュー)
+- [著者](#著者)
+- [引用](#引用)
+- [ライセンス](#ライセンス)
 
 ---
 
-## What is ColossalChat?
+## ColossalChatとは
 
-[ColossalChat](https://github.com/hpcaitech/ColossalAI/tree/main/applications/ColossalChat) is a project to implement LLM with RLHF, powered by the [Colossal-AI](https://github.com/hpcaitech/ColossalAI).
+[ColossalChat](https://github.com/hpcaitech/ColossalAI/tree/main/applications/ColossalChat)は、[Colossal-AI](https://github.com/hpcaitech/ColossalAI)を活用してRLHF付きLLMを実装するプロジェクトです。
 
-Coati stands for `ColossalAI Talking Intelligence`. It is the name for the module implemented in this project and is also the name of the large language model developed by the ColossalChat project.
+Coatiは`ColossalAI Talking Intelligence`の略です。これは、このプロジェクトで実装されたモジュールの名前であり、ColossalChatプロジェクトで開発された大規模言語モデルの名前でもあります。
 
-The Coati package provides a unified large language model framework that has implemented the following functions
+Coatiパッケージは、以下の機能を実装した統合大規模言語モデルフレームワークを提供します：
 
-- Supports comprehensive large-model training acceleration capabilities for ColossalAI, without requiring knowledge of complex distributed training algorithms
-- Supervised datasets collection
-- Supervised instructions fine-tuning
-- Training reward model
-- Reinforcement learning with human feedback
-- Perfectly integrated with the Hugging Face ecosystem, a high degree of model customization
+- 複雑な分散学習アルゴリズムの知識を必要とせずに、ColossalAIの包括的な大規模モデル学習加速機能をサポート
+- 教師ありデータセット収集
+- 教師あり指示微調整
+- 報酬モデル学習
+- 人間フィードバックによる強化学習
+- Hugging Faceエコシステムとの完全統合、高度なモデルカスタマイズ
 
 <div align="center">
   <p align="center">
@@ -197,20 +197,20 @@ Thanks so much to all of our amazing contributors!
 ## Authors
 
 Coati is developed by ColossalAI Team:
-- [ver217](https://github.com/ver217) Leading the project while contributing to the main framework (System Lead).
-- [Tong Li](https://github.com/TongLi3701) Leading the project while contributing to the main framework (Algorithm Lead).
-- [Anbang Ye](https://github.com/YeAnbang) Contributing to the refactored PPO version with updated acceleration framework. Add support for DPO, SimPO, ORPO.
-- [FrankLeeeee](https://github.com/FrankLeeeee) Providing ML infra support and also taking charge of both front-end and back-end development.
-- [htzhou](https://github.com/ht-zhou) Contributing to the algorithm and development for RM and PPO training.
-- [Fazzie](https://fazzie-key.cool/about/index.html) Contributing to the algorithm and development for SFT.
-- [ofey404](https://github.com/ofey404) Contributing to both front-end and back-end development.
-- [Wenhao Chen](https://github.com/CWHer) Contributing to subsequent code enhancements and performance improvements.
+- [ver217](https://github.com/ver217) プロジェクトをリードしながらメインフレームワークに貢献（システムリード）。
+- [Tong Li](https://github.com/TongLi3701) プロジェクトをリードしながらメインフレームワークに貢献（アルゴリズムリード）。
+- [Anbang Ye](https://github.com/YeAnbang) 更新された加速フレームワークでリファクタリングされたPPOバージョンに貢献。DPO、SimPO、ORPOのサポートを追加。
+- [FrankLeeeee](https://github.com/FrankLeeeee) MLインフラサポートを提供し、フロントエンドとバックエンドの両方の開発を担当。
+- [htzhou](https://github.com/ht-zhou) RMとPPO学習のアルゴリズムと開発に貢献。
+- [Fazzie](https://fazzie-key.cool/about/index.html) SFTのアルゴリズムと開発に貢献。
+- [ofey404](https://github.com/ofey404) フロントエンドとバックエンドの両方の開発に貢献。
+- [Wenhao Chen](https://github.com/CWHer) 後続のコード拡張と性能改善に貢献。
 
-The PhD student from [(HPC-AI) Lab](https://ai.comp.nus.edu.sg/) also contributed a lot to this project.
+[(HPC-AI) Lab](https://ai.comp.nus.edu.sg/)の博士課程学生もこのプロジェクトに大きく貢献しました。
 - [Zangwei Zheng](https://github.com/zhengzangw)
 - [Xue Fuzhao](https://github.com/XueFuzhao)
 
-We also appreciate the valuable suggestions provided by [Jian Hu](https://github.com/hijkzzz) regarding the convergence of the PPO algorithm.
+PPOアルゴリズムの収束に関して[Jian Hu](https://github.com/hijkzzz)から提供された貴重な提案にも感謝いたします。
 
 ## Citations
 ```bibtex
